@@ -47,6 +47,7 @@ using MonoTouch.AudioToolbox;
 using MonoTouch.AVFoundation;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
+using MonoTouch.ObjCRuntime;
 #endif
 
 #if WINDOWS_MEDIA_ENGINE || WINDOWS_MEDIA_SESSION
@@ -229,21 +230,24 @@ namespace Microsoft.Xna.Framework.Media
 		{ 
 			get 
 			{ 
-				var musicPlayer = MPMusicPlayerController.iPodMusicPlayer;
-				
-				if (musicPlayer == null)
-					return true;
-				
-				// TODO: Research the Interrupted state and see if it's valid to
-				// have control at that time.
-				
-				// Note: This will throw a bunch of warnings/output to the console
-				// if running in the simulator. This is a known issue:
-				// http://forums.macrumors.com/showthread.php?t=689102
-				if (musicPlayer.PlaybackState == MPMusicPlaybackState.Playing || 
-				 	musicPlayer.PlaybackState == MPMusicPlaybackState.SeekingForward ||
-				    musicPlayer.PlaybackState == MPMusicPlaybackState.SeekingBackward)
-				return false;
+                if (Runtime.Arch != Arch.SIMULATOR)
+                {
+    				var musicPlayer = MPMusicPlayerController.iPodMusicPlayer;
+    				
+    				if (musicPlayer == null)
+    					return true;
+    				
+    				// TODO: Research the Interrupted state and see if it's valid to
+    				// have control at that time.
+    				
+    				// Note: This will throw a bunch of warnings/output to the console
+    				// if running in the simulator. This is a known issue:
+    				// http://forums.macrumors.com/showthread.php?t=689102
+    				if (musicPlayer.PlaybackState == MPMusicPlaybackState.Playing || 
+    				 	musicPlayer.PlaybackState == MPMusicPlaybackState.SeekingForward ||
+    				    musicPlayer.PlaybackState == MPMusicPlaybackState.SeekingBackward)
+    				return false;
+                }
 				
 				return true;
 			} 
