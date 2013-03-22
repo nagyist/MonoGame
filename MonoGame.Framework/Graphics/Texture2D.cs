@@ -429,13 +429,13 @@ namespace Microsoft.Xna.Framework.Graphics
             if (data.Length < startIndex + elementCount)
                 throw new ArgumentException("The data passed has a length of " + data.Length + " but " + elementCount + " pixels have been requested.");
 
-#if IOS
+//#if IOS
 
             // Reading back a texture from GPU memory is unsupported
             // in OpenGL ES 2.0 and no work around has been implemented.           
-            throw new NotSupportedException("OpenGL ES 2.0 does not support texture reads.");
+            //throw new NotSupportedException("OpenGL ES 2.0 does not support texture reads.");
 
-#elif ANDROID
+#if ANDROID || IOS
 
             Rectangle r;
             if (rect != null)
@@ -1013,7 +1013,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 #endif
 
-#if ANDROID
+#if ANDROID || IOS
 		private byte[] GetTextureData(int ThreadPriorityLevel)
 		{
 			int framebufferId = -1;
