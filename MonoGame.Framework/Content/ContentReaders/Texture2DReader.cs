@@ -121,9 +121,23 @@ namespace Microsoft.Xna.Framework.Content
 					convertedFormat = SurfaceFormat.Color;
 					break;
 			}
-			
+   
             if (existingInstance == null)
-                texture = new Texture2D(reader.GraphicsDevice, width, height, levelCountOutput > 1, convertedFormat);
+            {
+#if IOS
+                try {
+#endif
+                    texture = new Texture2D(reader.GraphicsDevice, width,
+                        height, levelCountOutput > 1, convertedFormat);
+#if IOS
+                } catch (MonoGameGLException) {
+                    // its not a PVRTC texture!!! try an DXT
+                    convertedFormat = SurfaceFormat.Color;
+                    texture = new Texture2D(reader.GraphicsDevice,
+                        width, height, levelCountOutput > 1, convertedFormat);
+                }
+#endif
+            }
             else
                 texture = existingInstance;
 			
