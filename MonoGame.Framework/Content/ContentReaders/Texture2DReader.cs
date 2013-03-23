@@ -99,7 +99,7 @@ namespace Microsoft.Xna.Framework.Content
 			SurfaceFormat convertedFormat = surfaceFormat;
 			switch (surfaceFormat)
 			{
-#if IOS
+#if IOS1
 		        // At the moment. If a DXT Texture comes in on iOS, it's really a PVR compressed
 				// texture. We need to use this hack until the content pipeline is implemented.
 				// For now DXT5 means we're using 4bpp PVRCompression and DXT3 means 2bpp. Look at
@@ -110,7 +110,7 @@ namespace Microsoft.Xna.Framework.Content
 				case SurfaceFormat.Dxt5:
 					convertedFormat = SurfaceFormat.RgbaPvrtc4Bpp;
 					break;
-#elif ANDROID || PSM
+#elif ANDROID || PSM || IOS
 				case SurfaceFormat.Dxt1:
 				case SurfaceFormat.Dxt3:
 				case SurfaceFormat.Dxt5:
@@ -156,7 +156,7 @@ namespace Microsoft.Xna.Framework.Content
 				//Convert the image data if required
 				switch (surfaceFormat)
 				{
-#if ANDROID || PSM
+#if ANDROID || PSM || IOS
 					//no Dxt in OpenGL ES
 					case SurfaceFormat.Dxt1:
 						levelData = DxtUtil.DecompressDxt1(levelData, levelWidth, levelHeight);
